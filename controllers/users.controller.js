@@ -1,5 +1,6 @@
 const { request, response } = require("express");
 const Usuario = require("../models/users.model");
+const bcrypt = require("bcryptjs");
 
 /**
  * Autentica a un usuario a través de email y contraseña.
@@ -34,6 +35,46 @@ const login = async (req = request, res = response) => {
   }
 };
 
+const register = async (req = request, res = response) => {
+  try {
+    const {
+      cedula,
+      nombre,
+      apellidos,
+      email,
+      password,
+      telefono,
+      fechaNacimiento,
+    } = req.body;
+
+    const user = new Usuario({
+      cedula,
+      nombre,
+      apellidos,
+      email,
+      password,
+      telefono,
+      fechaNacimiento,
+    });
+
+    var salt = bcrypt.genSaltSync(10);
+    user.password = bcrypt.hashSync(password, salt);
+
+    await user.save();
+
+    return res.json({
+      success: 200,
+      message: "Usuario agregado exitosamente",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Ha ocurrido un error en el servidor",
+    });
+  }
+};
+
 module.exports = {
   login,
+  register
 };

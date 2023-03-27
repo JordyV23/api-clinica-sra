@@ -39,14 +39,19 @@ const SchemaUsuario = new Schema({
     required: [true, "El campo telefono es requerido"],
   },
 
+  fechaNacimiento: {
+    type: Date,
+    required: [true,"La fecha de nacimiento es requerida"]
+  },
+
   rol: {
     type: String,
-    required: [true, "El campo rol es requerido"],
+    default: "public",
   },
 
   estado: {
     type: Boolean,
-    required: [true, "El campo estado es requerido"],
+    default: true,
   },
 });
 

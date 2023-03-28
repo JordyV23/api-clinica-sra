@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
  *
  * @param {Request} req - El objeto de solicitud de Express.
  * @param {Response} res - El objeto de respuesta de Express.
- * @returns {Promise<void>} - Una promesa que no devuelve nada.
+ * @returns {Promise<void>} - retorna una response con un success booleano.
  */
 const login = async (req = request, res = response) => {
   try {
@@ -19,7 +19,7 @@ const login = async (req = request, res = response) => {
       return res.status(200).json({
         success: true,
         msg: "Autenticacion Exitosa",
-        user,
+        id:user._id
       });
     }
 
@@ -35,6 +35,12 @@ const login = async (req = request, res = response) => {
   }
 };
 
+/**
+ * Registra un usuario en la base de datos
+ * @param {*} req - El objeto de solicitud de Express.
+ * @param {*} res - El objeto de respuesta de Express.
+ * @returns un success booleano, true para un almacenado exitoso y false para un guardado fallido
+ */
 const register = async (req = request, res = response) => {
   try {
     const {
@@ -63,7 +69,7 @@ const register = async (req = request, res = response) => {
     await user.save();
 
     return res.json({
-      success: 200,
+      success: true,
       message: "Usuario agregado exitosamente",
     });
   } catch (error) {

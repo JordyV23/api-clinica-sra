@@ -46,7 +46,7 @@ const SchemaUsuario = new Schema({
 
   rol: {
     type: String,
-    default: "public",
+    default: "Public",
   },
 
   estado: {

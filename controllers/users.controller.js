@@ -13,24 +13,33 @@ const login = async (req = request, res = response) => {
   try {
     const { password, email } = req.body;
 
-    const user = await Usuario.findOne({ email, password });
+    const user = await Usuario.findOne({ email });
 
-    if (user) {
-      return res.status(200).json({
-        success: true,
-        msg: "Autenticacion Exitosa",
-        id:user._id
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        msg: "Credenciales Invalidas",
       });
     }
 
-    return res.status(400).json({
-      success: false,
-      msg: "Credenciales Invalidas",
+    const passwordValid = bcrypt.compareSync(password,user.password);
+    if(!passwordValid){
+      return res.status(400).json({
+        success: false,
+        msg: "Credenciales Invalidas",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      msg: "Autenticacion Exitosa",
+      id:user._id
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       message: "Ha ocurrido un error en el servidor",
+      error:error
     });
   }
 };

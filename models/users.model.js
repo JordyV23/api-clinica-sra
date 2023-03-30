@@ -1,8 +1,19 @@
 const { Schema, model } = require("mongoose");
 
 /**
- * SchemaUsuario permite realizar consultas a mongodb a traves de mongoose
- */
+ * @typedef {Object} Usuario
+ * @property {string} cedula - La cédula del usuario.
+ * @property {string} nombre - El nombre del usuario.
+ * @property {string} apellidos - Los apellidos del usuario.
+ * @property {string} email - El correo electrónico del usuario.
+ * @property {string} password - La contraseña del usuario.
+ * @property {boolean} google - Indica si el usuario se autenticó con Google.
+ * @property {string} telefono - El número de teléfono del usuario.
+ * @property {Date} fechaNacimiento - La fecha de nacimiento del usuario.
+ * @property {string} rol - El rol del usuario en la aplicación.
+ * @property {boolean} estado - Indica si la cuenta del usuario está activa o no.
+*/
+
 const SchemaUsuario = new Schema({
   cedula: {
     type: String,

@@ -32,7 +32,7 @@ const login = async (req = request, res = response) => {
       token: token,
     });
   } catch (error) {
-    return error500;
+    return error500(res,error);
   }
 };
 
@@ -68,12 +68,12 @@ const register = async (req = request, res = response) => {
     var salt = bcrypt.genSaltSync(10);
     user.password = bcrypt.hashSync(password, salt);
     await user.save();
-    return res.json({
+    return res.status(200).json({
       success: true,
       message: "Usuario agregado exitosamente",
     });
   } catch (error) {
-    return error500;
+    return error500(res,error);
   }
 };
 
@@ -95,14 +95,14 @@ const getUsuario = async (req = request, res = response) => {
     const { payload } = jwt.decode(token, { complete: true });
     const user = await Usuario.findById(payload.id);
     if (!user) {
-      return error500();
+      return error500(res,error);
     }
     return res.status(200).json({
       success: true,
       nombreCompleto: `${user.nombre} ${user.apellidos}`,
     });
   } catch (error) {
-    return error500;
+    return error500(res,error);
   }
 };
 

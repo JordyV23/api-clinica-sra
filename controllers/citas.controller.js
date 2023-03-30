@@ -1,8 +1,8 @@
+const moment = require("moment");
+const jwt = require("jsonwebtoken");
 const { request, response } = require("express");
 const { error500, sinCoincidencias, error400 } = require("../helpers/resp");
 const Citas = require("../models/citas.model");
-const moment = require("moment");
-
 
 /**
  * Busca todas las citas disponibles.
@@ -16,7 +16,7 @@ const moment = require("moment");
 const getCitas = async (req = request, res = response) => {
   try {
     const citasDisponibles = await Citas.find({ disponible: true });
-    if (citasDisponibles.length===0) {
+    if (citasDisponibles.length === 0) {
       return sinCoincidencias(res);
     }
     return res.status(200).json({
@@ -37,7 +37,7 @@ const getCitas = async (req = request, res = response) => {
  * @param {Object} res - Objeto de respuesta express.
  * @returns {Object} Respuesta de JSON con citas disponibles.
  * @throws {Object} Error de servidor.
-*/
+ */
 const getCitasByEspecialidad = async (req = request, res = response) => {
   try {
     const { especialidad } = req.body;
@@ -67,7 +67,41 @@ const getCitasByEspecialidad = async (req = request, res = response) => {
   }
 };
 
+/**
+ * Reserva una cita en el sistema.
+ * @async
+ * @function
+ * @param {Object} req - El objeto de solicitud de Express.
+ * @param {Object} res - El objeto de respuesta de Express.
+ * @returns {Object} - Un objeto JSON que indica si la reserva fue exitosa o no.
+ * @throws {Object} - Un objeto JSON que describe el error que ocurrió.
+*/
+const reservarCita = async (req = request, res = response) => {
+  try {
+    const token = req.header("user-token");
+    if (!token) {
+      return error400("El usuario debe autenticarse");
+    }
+    const { payload } = jwt.decode(token, { complete: true });
+    const { idCita, nombreCompleto, telefono } = req.body;
+    await Citas.findByIdAndUpdate(idCita, {
+      idPaciente: payload.id,
+      nombreCompleto: nombreCompleto,
+      telefono: telefono,
+      disponible: false,
+    });
+    return res.status(200).json({
+      success: true,
+      msg: "Su cita ha sido agendada",
+    });
+  } catch (error) {
+    console.log(error);
+    return error500(res, error);
+  }
+};
+
 module.exports = {
   getCitas,
   getCitasByEspecialidad,
+  reservarCita,
 };

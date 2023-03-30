@@ -14,7 +14,6 @@ const error500 = (res, error) => {
 };
 
 
-
 /**
 * Retorna una respuesta HTTP con un código 400 indicando que las credenciales proporcionadas son inválidas.
 * @function
@@ -28,7 +27,6 @@ const error400 = (res, msg = "Credenciales Invalidas") => {
     msg: msg,
   });
 };
-
 
 
 /**

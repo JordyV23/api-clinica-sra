@@ -14,13 +14,7 @@ const generarJWT = (id = "") => {
       expiresIn: "4h",
     };
     jwt.sign(payload, process.env.SECRETORPRIVATEKEY, options, (err, token) => {
-      //convertirlo en operador ternario
-      if (err) {
-        console.log(err)
-        reject("No se pudo generar el token");
-      } else {
-        resolve(token);
-      }
+      err ? reject("No se pudo generar el token") : resolve(token);
     });
   });
 };

@@ -80,16 +80,16 @@ const reservarCita = async (req = request, res = response) => {
   try {
     const token = req.header("user-token");
     if (!token) {
-      return error400("El usuario debe autenticarse");
+      return error400(res,"El usuario debe autenticarse");
     }
     const { payload } = jwt.decode(token, { complete: true });
     const { idCita, nombreCompleto, telefono } = req.body;
-    await Citas.findByIdAndUpdate(idCita, {
-      idPaciente: payload.id,
-      nombreCompleto: nombreCompleto,
-      telefono: telefono,
-      disponible: false,
-    });
+    const cita = await Citas.findById(idCita)
+    const citasUsuario = await Citas.find({idPaciente:payload.id, fecha: cita.fecha, hora: cita.hora })
+    if(citasUsuario.length>0){
+      return error400(res,"El usurio ya tiene una cita agendada a esta hora este dia")
+    }
+    await Citas.findByIdAndUpdate(idCita, { idPaciente: payload.id,nombreCompleto: nombreCompleto,telefono: telefono,disponible: false,});
     return res.status(200).json({
       success: true,
       msg: "Su cita ha sido agendada",

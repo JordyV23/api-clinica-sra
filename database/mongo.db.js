@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
 /**
- * funcion para realizar la conexion a mongodb
- */
+* Conecta con la base de datos MongoDB
+* @throws {Error} si ocurre un error en la conexión a la base de datos
+*/
 const conectorMONGO = async () => {
   try {
     mongoose.set("strictQuery", true);

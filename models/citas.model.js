@@ -2,20 +2,22 @@ const { Schema, model } = require("mongoose");
 const medicosModel = require("./medicos.model");
 const usersModel = require("./users.model");
 
-
+/**
+ * SchemaCitas permite realizar consultas a mongodb a traves de mongoose
+ */
 const SchemaCitas = new Schema({
   idMedico: {
     type: Schema.Types.ObjectId,
-    // ref: medicosModel,
+    ref: medicosModel,
     required: [true, "El campo idMedico es obligatorio"],
   },
   nombreMedico: {
     type: String,
     required: [true, "El campo nombreMedico es obligatorio"],
   },
-  especialiad: {
+  especialidad: {
     type: String,
-    required: [true, "El campo especialiad es obligatorio"],
+    required: [true, "El campo especialidad es obligatorio"],
   },
   fecha: {
     type: String,
@@ -27,7 +29,7 @@ const SchemaCitas = new Schema({
   },
   idPaciente: {
     type: Schema.Types.ObjectId,
-    // ref: usersModel,
+    ref: usersModel,
     required: [true, "El campo idPaciente es obligatorio"],
   },
   nombreCompleto: {

@@ -1,6 +1,9 @@
 const { Schema, model } = require("mongoose");
 const usersModel = require("./users.model");
 
+/**
+ * SchemaMedico permite realizar consultas a mongodb a traves de mongoose
+ */
 const SchemaMedico = new Schema({
   idUsuario: {
     type: Schema.Types.ObjectId,

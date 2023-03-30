@@ -30,6 +30,7 @@ const login = async (req = request, res = response) => {
       success: true,
       msg: "Autenticacion Exitosa",
       token: token,
+      rol: user.rol
     });
   } catch (error) {
     return error500(res,error);

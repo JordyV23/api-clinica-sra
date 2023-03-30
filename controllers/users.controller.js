@@ -1,6 +1,8 @@
 const { request, response } = require("express");
 const Usuario = require("../models/users.model");
 const bcrypt = require("bcryptjs");
+const { error400, error500 } = require("../helpers/resp");
+const generarJWT = require('../helpers/genJWT')
 
 /**
  * Autentica a un usuario a través de email y contraseña.
@@ -16,31 +18,22 @@ const login = async (req = request, res = response) => {
     const user = await Usuario.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({
-        success: false,
-        msg: "Credenciales Invalidas",
-      });
+      return error400(res);
     }
 
-    const passwordValid = bcrypt.compareSync(password,user.password);
-    if(!passwordValid){
-      return res.status(400).json({
-        success: false,
-        msg: "Credenciales Invalidas",
-      });
+    const passwordValid = bcrypt.compareSync(password, user.password);
+    if (!passwordValid) {
+      return error400(res);
     }
 
+    const token = await generarJWT(user._id);
     return res.status(200).json({
       success: true,
       msg: "Autenticacion Exitosa",
-      id:user._id
+      token: token
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Ha ocurrido un error en el servidor",
-      error:error
-    });
+    return error500;
   }
 };
 
@@ -82,14 +75,11 @@ const register = async (req = request, res = response) => {
       message: "Usuario agregado exitosamente",
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Ha ocurrido un error en el servidor",
-    });
+    return error500;
   }
 };
 
 module.exports = {
   login,
-  register
+  register,
 };

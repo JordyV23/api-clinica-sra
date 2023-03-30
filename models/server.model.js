@@ -8,7 +8,7 @@ class Server {
     this.app = express();
     this.port = process.env.PORT;
     this.pathClinica = "/clinica";
-
+    this.pathCitas = "/citas";
     this.middleWares();
     this.routes();
     this.MongoDB();
@@ -24,6 +24,7 @@ class Server {
 
   routes() {
     this.app.use(this.pathClinica, require("../routes/users.routes"));
+    this.app.use(this.pathCitas, require("../routes/citas.routes"));
   }
 
   middleWares() {

@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const listEndpoints = require('express-list-endpoints')
 require("dotenv").config();
 const conectorMONGO = require("../database/mongo.db");
 
@@ -25,6 +26,7 @@ class Server {
   routes() {
     this.app.use(this.pathClinica, require("../routes/users.routes"));
     this.app.use(this.pathCitas, require("../routes/citas.routes"));
+    console.log(listEndpoints(this.app));
   }
 
   middleWares() {

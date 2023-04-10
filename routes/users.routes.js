@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const { check } = require("express-validator");
 const { login,register, getUsuario} = require("../controllers/users.controller");
 
 const router = Router();
@@ -24,7 +25,7 @@ router.post("/login", login);
  * @return {Object} - Objeto JSON que contiene el usuario recién registrado y el token de autenticación
  * @throws {Object} - Objeto JSON que contiene un mensaje de error en caso de fallo de registro
  */
-router.post("/register", register)
+router.post("/register",[check("email", "Este email no es valido").isEmail()], register)
 
 
 /**

@@ -17,6 +17,7 @@ const { Schema, model } = require("mongoose");
 const SchemaUsuario = new Schema({
   cedula: {
     type: String,
+    unique: true,
     required: [true, "El campo cedula es requerido"],
   },
 
@@ -32,6 +33,7 @@ const SchemaUsuario = new Schema({
 
   email: {
     type: String,
+    unique: true,
     required: [true, "El campo email es requerido"],
   },
 

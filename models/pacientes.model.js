@@ -1,11 +1,13 @@
 const { Schema, model } = require("mongoose");
-const usersModel = require("./users.model");
 
 const SchemaPacientes = new Schema({
-    idUsuario: {
-      type: Schema.Types.ObjectId,
-      ref: usersModel,
-      required: [true, "El campo idUsuario es obligatorio"],
+    cedula: {
+      type: String,
+      required: [true, "El campo cedula es obligatorio"],
+    },
+    nombreCompleto: {
+      type: String,
+      required: [true, "El campo nombreCompleto es obligatorio"],
     },
     peso: {
       type: String,
@@ -33,7 +35,9 @@ const SchemaPacientes = new Schema({
     },
     contactoDeEmergencia: {
       type: Schema.Types.Array,
-      required: [true, "El campo contactoDeEmergencia es obligatorio"],
+      isArray:true,
+      notEmpty: true,
+      required: [true, "El campo contactoDeEmergencia es obligatorio, debe de tener al menos un contacto de emergencia"],
     },
 
   });

@@ -10,6 +10,7 @@ class Server {
     this.port = process.env.PORT;
     this.pathClinica = "/clinica";
     this.pathCitas = "/citas";
+    this.pathPacientes = "/pacientes"
     this.middleWares();
     this.routes();
     this.MongoDB();
@@ -26,6 +27,7 @@ class Server {
   routes() {
     this.app.use(this.pathClinica, require("../routes/users.routes"));
     this.app.use(this.pathCitas, require("../routes/citas.routes"));
+    this.app.use(this.pathPacientes, require("../routes/pacientes.routes"))
     console.log(listEndpoints(this.app));
   }
 

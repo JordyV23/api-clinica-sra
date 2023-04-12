@@ -1,5 +1,6 @@
 const { request, response } = require("express");
 const { buscarPorCedula } = require("./buscarPorCedula");
+const { buscarPorNombre } = require("./buscarPorNombre");
 
 const busqueda = async (req = request, res = response) => {
   const { op } = req.query;
@@ -10,7 +11,8 @@ const busqueda = async (req = request, res = response) => {
   }
 
   if (op === "2") {
-    console.log("Busca por nombre");
+    const resultado = await buscarPorNombre(req,res)
+    return resultado
   }
 };
 

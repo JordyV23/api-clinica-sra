@@ -4,6 +4,16 @@ const Pacientes = require("../models/pacientes.model");
 const { error500, sinCoincidencias, error400 } = require("../helpers/resp");
 const { busqueda } = require("../pacientes/busqueda");
 
+
+/**
+ * Función que registra un nuevo paciente en la base de datos.
+ * @function registrarPaciente
+ * @async
+ * @param {Object} req - objeto request de express que contiene los datos del paciente a registrar.
+ * @param {Object} res - objeto response de express que será enviado como respuesta.
+ * @returns {Object} objeto con el estado de la respuesta y un mensaje indicando si la acción se ejecutó correctamente.
+ * @throws {Error} si ocurre un error al intentar guardar el paciente en la base de datos.
+*/
 const registrarPaciente = async (req = request, res = response) => {
   try {
     const {
@@ -44,6 +54,15 @@ const registrarPaciente = async (req = request, res = response) => {
   }
 };
 
+/**
+ * Obtiene la lista de pacientes registrados en la base de datos.
+ * @function obtenerPacientes
+ * @async
+ * @param {object} req - Objeto de solicitud de Express.
+ * @param {object} res - Objeto de respuesta de Express.
+ * @returns {Object} Objeto JSON con el éxito del proceso y los pacientes encontrados.
+ * @throws {Object} Objeto JSON con el error ocurrido durante el proceso.
+*/
 const obtenerPacientes = async (req = request, res = response) => {
   try {
     const pacientes = await Pacientes.find();
@@ -59,6 +78,17 @@ const obtenerPacientes = async (req = request, res = response) => {
   }
 };
 
+
+
+/**
+* Busca pacientes mediante la función busqueda y devuelve una respuesta HTTP con los resultados.
+* @async
+* @function buscarPaciente
+* @param {Object} req - Objeto de solicitud de Express.
+* @param {Object} res - Objeto de respuesta de Express.
+* @returns {Object} - Objeto JSON con la respuesta HTTP de la búsqueda de pacientes.
+* @throws {Error} - Si ocurre algún error durante la búsqueda.
+*/
 const buscarPaciente = async (req = request, res = response) => {
   try {
     resultado = await busqueda(req, res);
@@ -77,6 +107,15 @@ const buscarPaciente = async (req = request, res = response) => {
   }
 };
 
+/**
+ * Actualiza los datos de un paciente en la base de datos y devuelve una respuesta HTTP con un mensaje de éxito.
+ * @async
+ * @function actualizarPaciente
+ * @param {Object} req - Objeto de solicitud de Express que contiene los datos del paciente a actualizar.
+ * @param {Object} res - Objeto de respuesta de Express.
+ * @returns {Object} - Objeto JSON con la respuesta HTTP de la actualización del paciente.
+ * @throws {Error} - Si ocurre algún error durante la actualización del paciente.
+*/
 const actualizarPaciente = async (req = request, res = response) => {
   try {
     const {
@@ -117,6 +156,16 @@ const actualizarPaciente = async (req = request, res = response) => {
   }
 };
 
+
+/**
+ * Elimina un paciente de la base de datos y devuelve una respuesta HTTP con un mensaje de éxito.
+ * @async
+ * @function eliminarPaciente
+ * @param {Object} req - Objeto de solicitud de Express que contiene el ID del paciente a eliminar.
+ * @param {Object} res - Objeto de respuesta de Express.
+ * @returns {Object} - Objeto JSON con la respuesta HTTP de la eliminación del paciente.
+ * @throws {Error} - Si ocurre algún error durante la eliminación del paciente.
+*/
 const eliminarPaciente = async (req = request, res = response) => {
   try {
     const { cedula } = req.params;

@@ -1,5 +1,20 @@
 const { Schema, model } = require("mongoose");
 
+
+/**
+ * Esquema para la colección de Pacientes en la base de datos
+ * @typedef {Object} PacientesSchema
+ * @property {String} cedula - Cédula del paciente (requerido)
+ * @property {String} nombreCompleto - Nombre completo del paciente (requerido)
+ * @property {Array} peso - Array de números que representa el peso del paciente (requerido)
+ * @property {Array} presionArterial - Array de números que representa la presión arterial del paciente (requerido)
+ * @property {String} edad - Edad del paciente (requerido)
+ * @property {String} altura - Altura del paciente (requerido)
+ * @property {Array} enfermedades - Array de Strings que representa las enfermedades del paciente (opcional)
+ * @property {String} tipoDeSangre - Tipo de sangre del paciente (requerido)
+ * @property {Array} medicamentosAlergicos - Array de Strings que representa los medicamentos a los que el paciente es alérgico (opcional)
+ * @property {Array} contactoDeEmergencia - Array de Objetos que representa los contactos de emergencia del paciente (requerido, debe contener al menos un contacto de emergencia)
+ */
 const SchemaPacientes = new Schema({
     cedula: {
       type: String,
@@ -43,7 +58,6 @@ const SchemaPacientes = new Schema({
       notEmpty: true,
       required: [true, "El campo contactoDeEmergencia es obligatorio, debe de tener al menos un contacto de emergencia"],
     },
-
   });
 
 module.exports = model("paciente", SchemaPacientes);

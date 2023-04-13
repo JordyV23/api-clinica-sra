@@ -61,14 +61,53 @@ const buscarPaciente = async (req = request, res = response) => {
   try {
     //const pacientes = await Pacientes.find({ cedula: cedula });
     resultado = await busqueda(req, res);
-    if(resultado.length<1){
-      return error400(res,"No se han encontrado pacientes")
+    if (resultado.length < 1) {
+      return error400(res, "No se han encontrado pacientes");
     }
 
     return res.status(200).json({
       success: true,
       message: "Accion Ejecutada con Exito",
       pacientes: resultado,
+    });
+  } catch (error) {
+    console.log(error);
+    return error500(res);
+  }
+};
+
+const actualizarPaciente = async (req = request, res = response) => {
+  try {
+    const {
+      cedula,
+      nombreCompleto,
+      peso,
+      edad,
+      altura,
+      enfermedades,
+      tipoDeSangre,
+      medicamentosAlergicos,
+      contactoDeEmergencia,
+    } = req.body;
+
+    await Pacientes.updateOne(
+      { cedula: cedula },
+      {
+        $set: {
+          peso: peso,
+          edad: edad,
+          altura: altura,
+          enfermedades: enfermedades,
+          tipoDeSangre: tipoDeSangre,
+          medicamentosAlergicos: medicamentosAlergicos,
+          contactoDeEmergencia: contactoDeEmergencia,
+        },
+      }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Paciente actualizado exitosamente",
     });
   } catch (error) {
     console.log(error);
@@ -102,4 +141,5 @@ module.exports = {
   obtenerPacientes,
   buscarPaciente,
   eliminarPaciente,
+  actualizarPaciente,
 };

@@ -5,17 +5,18 @@ const {
   getConsultas,
   getConsulta,
 } = require("../controllers/consultas.controller");
+const {
+  validateMedico,
+  validateEnfermero,
+} = require("../middlewares/consultas.validations");
 const router = Router();
 
 router.get("/getAll", getConsultas);
 
-//validar longitud de id que sea de 12 y que sea string
-router.get("/get/:idConsulta",getConsulta)
+router.get("/get/:idConsulta", getConsulta);
 
-//validar que el rol sea enfermera
-router.post("/inicializarConsulta", inicializarConsulta);
+router.post("/inicializarConsulta", [validateEnfermero], inicializarConsulta);
 
-//validar que el rol sea doctor
-router.post("/diagnostico", diagnostico);
+router.post("/diagnostico", [validateMedico], diagnostico);
 
 module.exports = router;

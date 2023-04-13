@@ -10,8 +10,12 @@ const SchemaPacientes = new Schema({
       required: [true, "El campo nombreCompleto es obligatorio"],
     },
     peso: {
-      type: String,
+      type: Schema.Types.Array,
       required: [true, "El campo peso es obligatorio"],
+    },
+    presionArterial: {
+      type: Schema.Types.Array,
+      required: [true, "El campo presionArterial es obligatorio"],
     },
     edad: {
       type: String,

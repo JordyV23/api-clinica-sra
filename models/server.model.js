@@ -11,6 +11,7 @@ class Server {
     this.pathClinica = "/clinica";
     this.pathCitas = "/citas";
     this.pathPacientes = "/pacientes"
+    this.pathConsultas = "/consultas"
     this.middleWares();
     this.routes();
     this.MongoDB();
@@ -28,6 +29,7 @@ class Server {
     this.app.use(this.pathClinica, require("../routes/users.routes"));
     this.app.use(this.pathCitas, require("../routes/citas.routes"));
     this.app.use(this.pathPacientes, require("../routes/pacientes.routes"))
+    this.app.use(this.pathConsultas, require('../routes/consultas.routes'))
     console.log(listEndpoints(this.app));
   }
 

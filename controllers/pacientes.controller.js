@@ -10,6 +10,7 @@ const registrarPaciente = async (req = request, res = response) => {
       cedula,
       nombreCompleto,
       peso,
+      presionArterial,
       edad,
       altura,
       enfermedades,
@@ -22,6 +23,7 @@ const registrarPaciente = async (req = request, res = response) => {
       cedula,
       nombreCompleto,
       peso,
+      presionArterial,
       edad,
       altura,
       enfermedades,
@@ -59,7 +61,6 @@ const obtenerPacientes = async (req = request, res = response) => {
 
 const buscarPaciente = async (req = request, res = response) => {
   try {
-    //const pacientes = await Pacientes.find({ cedula: cedula });
     resultado = await busqueda(req, res);
     if (resultado.length < 1) {
       return error400(res, "No se han encontrado pacientes");
@@ -80,8 +81,8 @@ const actualizarPaciente = async (req = request, res = response) => {
   try {
     const {
       cedula,
-      nombreCompleto,
       peso,
+      presionArterial,
       edad,
       altura,
       enfermedades,
@@ -95,6 +96,7 @@ const actualizarPaciente = async (req = request, res = response) => {
       {
         $set: {
           peso: peso,
+          presionArterial:presionArterial,
           edad: edad,
           altura: altura,
           enfermedades: enfermedades,

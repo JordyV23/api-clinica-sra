@@ -118,10 +118,10 @@ const inicializarConsulta = async (req = request, res = response) => {
 */
 const diagnostico = async (req = request, res = response) => {
   try {
-    const { idDiagnostico, diagnostico, medicamentos, examenes } = req.body;
+    const { idConsulta, diagnostico, medicamentos, examenes } = req.body;
 
     await Consultas.findOneAndUpdate(
-      { _id: idDiagnostico },
+      { _id: idConsulta },
       {
         $set: {
           diagnostico: diagnostico,

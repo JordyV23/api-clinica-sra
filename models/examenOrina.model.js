@@ -1,6 +1,18 @@
 const { Schema, model } = require("mongoose");
 const consultaModel = require("./consultas.model");
 
+/**
+ * @typedef {Object} SchemaExamenOrina
+ * @property {Schema.Types.ObjectId} idConsulta - ID de la consulta a la que se refiere el examen de orina
+ * @property {string} cedulaPaciente - Cédula del paciente al que se le realizó el examen de orina
+ * @property {string} tipoExamen - Tipo de examen realizado ("Sangre", "Orina", etc.)
+ * @property {string} fechaRealizado - Fecha en la que se realizó el examen de orina
+ * @property {boolean} realizado - Indica si el examen de orina fue realizado o no
+ * @property {string} glucosa - Resultado del nivel de glucosa en el examen de orina
+ * @property {string} eritrocitos - Resultado del nivel de eritrocitos en el examen de orina
+ * @property {string} color - Resultado del color en el examen de orina
+ * @property {string} leucocitos - Resultado del nivel de leucocitos en el examen de orina
+ */
 const SchemaExamenOrina = new Schema({
   idConsulta: {
     type: Schema.Types.ObjectId,

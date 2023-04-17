@@ -1,7 +1,7 @@
 const { request, response } = require("express");
 const { error400, error500 } = require("../helpers/resp");
 const { registrarExamenes } = require("../examenes/registrar");
-const { buscarUno } = require("../examenes/buscar");
+const { buscarUno, buscarTodos } = require("../examenes/buscar");
 
 const registrarExamen = async (req = request, res = response) => {
   try {
@@ -27,7 +27,19 @@ const getOneExamen = async (req = request, res = response) => {
   }
 };
 
+const getTodosExamen = async (req = request, res = response) => {
+  try {
+    const { op } = req.params;
+    return await buscarTodos(req,res,op);
+
+  } catch (error) {
+    console.log(error);
+    error500(res);
+  }
+};
+
 module.exports = {
   registrarExamen,
-  getOneExamen
+  getOneExamen,
+  getTodosExamen
 };

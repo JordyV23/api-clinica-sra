@@ -2,6 +2,7 @@ const { request, response } = require("express");
 const Consultas = require("../models/consultas.model");
 const { error500, sinCoincidencias, error400 } = require("../helpers/resp");
 const pacientesModel = require("../models/pacientes.model");
+const { crearExamenes } = require("../examenes/crearExamen");
 
 /**
  * @function getConsultas
@@ -115,12 +116,12 @@ const inicializarConsulta = async (req = request, res = response) => {
  * @returns {Object} objeto con el estado de la respuesta y un mensaje indicando si la acción se ejecutó correctamente.
  * @throws {Error} si ocurre un error al intentar actualizar la consulta en la base de datos.
  * @description Función que realiza el diagnóstico de una consulta existente.
-*/
+ */
 const diagnostico = async (req = request, res = response) => {
   try {
     const { idConsulta, diagnostico, medicamentos, examenes } = req.body;
 
-    await Consultas.findOneAndUpdate(
+    const consulta = await Consultas.findOneAndUpdate(
       { _id: idConsulta },
       {
         $set: {
@@ -129,8 +130,11 @@ const diagnostico = async (req = request, res = response) => {
           examenes: examenes,
           finalizada: true,
         },
-      }
+      },
+      { new: true }, 
     );
+
+    await crearExamenes(res,consulta)
 
     return res.status(200).json({
       success: true,

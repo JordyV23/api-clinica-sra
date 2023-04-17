@@ -49,4 +49,4 @@ const SchemaExamenSangre = new Schema({
   },
 });
 
-module.exports = model("examen", SchemaExamenSangre);
+module.exports = model("sangreExamen", SchemaExamenSangre);

@@ -1,18 +1,18 @@
 const { request, response } = require("express");
-const { examenOrina } = require("../models/examenes.model");
 const { error500 } = require("../helpers/resp");
-const { default: mongoose } = require("mongoose");
+const ExamenOrinaModel = require("../models/examenOrina.model");
 
 const actualizarOrina = async (req = request, res = response, op, cedula) => {
   try {
     const { fechaRealizado, glucosa, eritrocitos, color, leucocitos } =
       req.body;
 
-    const exameModl = mongoose.model("examen", examenOrina);
+    console.log(fechaRealizado, glucosa, eritrocitos, color, leucocitos);
 
-    // console.log(examenOrina.query)
-    // return
-    await exameModl.findOneAndUpdate(
+    // const exam = await ExamenOrinaModel.findOne({cedulaPaciente: cedula, realizado: false, tipoExamen: op})
+    // console.log(exam)
+
+     await ExamenOrinaModel.findOneAndUpdate(
       { cedulaPaciente: cedula, realizado: false, tipoExamen: op },
       {
         $set: {
@@ -24,7 +24,6 @@ const actualizarOrina = async (req = request, res = response, op, cedula) => {
           leucocitos: leucocitos,
         },
       },
-      { runValidators: true, discriminatorKey: "ExamenOrina" }
     );
 
     return res.status(200).json({
@@ -38,14 +37,3 @@ const actualizarOrina = async (req = request, res = response, op, cedula) => {
 };
 
 module.exports = { actualizarOrina };
-
-// idConsulta
-// cedulaPaciente
-// tipoExamen
-
-// fechaRealizado
-// realizado
-// glucosa
-// eritrocitos
-// color
-// leucocitos

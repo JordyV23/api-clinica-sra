@@ -1,22 +1,33 @@
 const { request, response } = require("express");
 const { error400, error500 } = require("../helpers/resp");
-const {registrarExamenes} = require('../examenes/registrar')
+const { registrarExamenes } = require("../examenes/registrar");
+const { buscarUno } = require("../examenes/buscar");
 
 const registrarExamen = async (req = request, res = response) => {
   try {
     const { op } = req.params;
     const { cedula } = req.query;
 
-    console.log( op,cedula)
+    return registrarExamenes(req, res, op, cedula);
+  } catch (error) {
+    console.log(error);
+    error500(res);
+  }
+};
 
-   return registrarExamenes(req,res,op,cedula)
+const getOneExamen = async (req = request, res = response) => {
+  try {
+    const { op } = req.params;
+    const {valor,tipo} = req.query
+    return buscarUno(req,res,op,valor,tipo);
 
   } catch (error) {
     console.log(error);
-    error500(res)
+    error500(res);
   }
 };
 
 module.exports = {
   registrarExamen,
+  getOneExamen
 };

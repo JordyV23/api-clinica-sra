@@ -1,9 +1,9 @@
 const { Router } = require('express');
-const { registrarExamen } = require('../controllers/examenes.controller');
+const { registrarExamen, getOneExamen } = require('../controllers/examenes.controller');
 const router = Router();
-//Aqui va una ruta 
-//ejem: router.get('/getAllUsers', getUsers);
 
 router.post('/registrarExamen/:op',registrarExamen)
+
+router.get('/getExamen/:op',getOneExamen)
 
 module.exports = router;

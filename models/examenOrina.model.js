@@ -40,4 +40,5 @@ const SchemaExamenOrina = new Schema({
     required: [true, "El campo leucocitos es requerido"],
   },
 });
-module.exports = model("examen", SchemaExamenOrina);
+
+module.exports = model("orinaExamen", SchemaExamenOrina);

@@ -1,6 +1,6 @@
 const { request, response } = require("express");
-const {examenSangre} = require('../models/examenes.model')
 const { error500 } = require("../helpers/resp");
+const ExamenSangreModel = require("../models/examenSangre.model");
 
 const actualizarSangre = async (req = request, res = response, op, cedula) => {
   // idConsulta
@@ -28,7 +28,7 @@ const actualizarSangre = async (req = request, res = response, op, cedula) => {
       creatinina,
     } = req.body;
 
-    await examenSangre.findOneAndUpdate(
+    await ExamenSangreModel.findOneAndUpdate(
       { cedulaPaciente: cedula, realizado: false, tipoExamen: op },
       {
         $set: {

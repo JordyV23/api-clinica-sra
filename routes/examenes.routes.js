@@ -5,6 +5,7 @@ const {
   getTodosExamen,
   getTodosPorTipo,
 } = require("../controllers/examenes.controller");
+const { validateRol } = require("../middlewares/examenes.valitations");
 const router = Router();
 
 /**
@@ -16,7 +17,7 @@ const router = Router();
  * @param {Object} res - Response object.
  * @returns {Promise<Object>} - Retorna una promesa que resuelve en el objeto del examen registrado.
  */
-router.post("/registrarExamen/:op", registrarExamen);
+router.post("/registrarExamen/:op", [validateRol], registrarExamen);
 
 /**
  * @function getOneExamen

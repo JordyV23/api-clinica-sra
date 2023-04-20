@@ -22,7 +22,7 @@ router.get("/todas", getCitas);
  * @returns {Array} Array con las citas disponibles para la especialidad especificada
  * @throws {Error} Si ocurre un error al obtener las citas
  */
-router.get("/solicitar", getCitasByEspecialidad);
+router.post("/solicitar", getCitasByEspecialidad);
 
 /**
  * @route POST /citas/reservar

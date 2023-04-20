@@ -1,7 +1,15 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
-const { login,register, getUsuario} = require("../controllers/users.controller");
-const { validateEmailExistence, valCedula } = require("../middlewares/email.validations");
+const {
+  login,
+  register,
+  getUsuario,
+  loginGoogle,
+} = require("../controllers/users.controller");
+const {
+  validateEmailExistence,
+  valCedula,
+} = require("../middlewares/email.validations");
 
 const router = Router();
 
@@ -16,6 +24,13 @@ const router = Router();
  */
 router.post("/login", login);
 
+/**
+ * Ruta POST que maneja la autenticación del usuario mediante Google.
+ * @param {Object} req Objeto de solicitud HTTP.
+ * @param {Object} res Objeto de respuesta HTTP.
+ * @returns {Object} Objeto de respuesta HTTP con el resultado de la autenticación.
+ */
+router.post("/google", loginGoogle);
 
 /**
  * @route POST /register
@@ -26,8 +41,15 @@ router.post("/login", login);
  * @return {Object} - Objeto JSON que contiene el usuario recién registrado y el token de autenticación
  * @throws {Object} - Objeto JSON que contiene un mensaje de error en caso de fallo de registro
  */
-router.post("/register",[check("email", "Este email no es valido").isEmail(),valCedula,validateEmailExistence], register)
-
+router.post(
+  "/register",
+  [
+    check("email", "Este email no es valido").isEmail(),
+    valCedula,
+    validateEmailExistence,
+  ],
+  register
+);
 
 /**
  * @route GET /user
@@ -38,6 +60,6 @@ router.post("/register",[check("email", "Este email no es valido").isEmail(),val
  * @return {Object} - Objeto JSON que contiene la información del usuario actual
  * @throws {Object} - Objeto JSON que contiene un mensaje de error en caso de no encontrar la información del usuario o de problemas de autenticación
  */
-router.get("/user", getUsuario)
+router.get("/user", getUsuario);
 
 module.exports = router;

@@ -4,6 +4,7 @@ const generarJWT = require("../helpers/genJWT");
 const Usuario = require("../models/users.model");
 const { request, response } = require("express");
 const { error400, error500 } = require("../helpers/resp");
+const { googleVerify } = require("../helpers/googleVerify");
 
 /**
  * Autentica a un usuario y genera un token JWT para su sesion.
@@ -30,10 +31,57 @@ const login = async (req = request, res = response) => {
       success: true,
       msg: "Autenticacion Exitosa",
       token: token,
-      rol: user.rol
+      rol: user.rol,
     });
   } catch (error) {
-    return error500(res,error);
+    return error500(res, error);
+  }
+};
+
+/**
+ * Función asincrónica que maneja la autenticación del usuario mediante Google.
+ * @async
+ * @function loginGoogle
+ * @param {Object} req Objeto de solicitud HTTP (por defecto: request).
+ * @param {Object} res Objeto de respuesta HTTP (por defecto: response).
+ * @returns {Object} Objeto de respuesta HTTP con el resultado de la autenticación.
+ * @throws {Error} Error 500 - Error interno del servidor.
+*/
+const loginGoogle = async (req = request, res = response) => {
+  try {
+    const { id_token } = req.body;
+
+    const googleUser = await googleVerify(id_token);
+    const { nombre, email, apellido } = googleUser;
+
+    let usuario = await Usuario.findOne({ email });
+
+    if (!usuario) {
+      const data = {
+        cedula: "Pendiente",
+        nombre: nombre,
+        apellidos: apellido,
+        email: email,
+        password: process.env.GOOGLE_SECRET,
+        telefono: "Pendiente",
+        fechaNacimiento: "11-04-2023",
+        google: true,
+      };
+      usuario = new Usuario(data);
+      await usuario.save();
+    }
+
+    const token = await generarJWT(usuario.id);
+
+    return res.status(200).json({
+      success: true,
+      msg: "Autenticacion Exitosa",
+      token: token,
+      rol: usuario.rol,
+    });
+  } catch (err) {
+    console.log(err);
+    return error500(res);
   }
 };
 
@@ -74,7 +122,7 @@ const register = async (req = request, res = response) => {
       message: "Usuario agregado exitosamente",
     });
   } catch (error) {
-    return error500(res,error);
+    return error500(res, error);
   }
 };
 
@@ -96,19 +144,20 @@ const getUsuario = async (req = request, res = response) => {
     const { payload } = jwt.decode(token, { complete: true });
     const user = await Usuario.findById(payload.id);
     if (!user) {
-      return error500(res,error);
+      return error500(res, error);
     }
     return res.status(200).json({
       success: true,
       nombreCompleto: `${user.nombre} ${user.apellidos}`,
     });
   } catch (error) {
-    return error500(res,error);
+    return error500(res, error);
   }
 };
 
 module.exports = {
   login,
+  loginGoogle,
   register,
   getUsuario,
 };

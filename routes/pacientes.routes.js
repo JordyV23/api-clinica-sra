@@ -12,6 +12,7 @@ const {
   valRegisterPaciente,
   valContacto,
   valUnico,
+  validate,
 } = require("../middlewares/pacientes.validations");
 
 /**
@@ -53,7 +54,7 @@ router.get("/buscarPaciente/:valor", buscarPaciente);
  * @param {Response} res - Objeto de respuesta.
  * @returns {void}
  */
-router.put("/actualizarPaciente/", actualizarPaciente);
+router.put("/actualizarPaciente/",validate(), actualizarPaciente);
 
 /**
  * Elimina un paciente de la base de datos.

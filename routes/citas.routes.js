@@ -3,6 +3,7 @@ const {
   getCitas,
   getCitasByEspecialidad,
   reservarCita,
+  getCitasUsuario,
 } = require("../controllers/citas.controller");
 
 const router = Router();
@@ -33,5 +34,8 @@ router.post("/solicitar", getCitasByEspecialidad);
  * @throws {Error} Si ocurre un error al reservar la cita
  */
 router.post("/reservar", reservarCita);
+
+
+router.get("/citasUsuario", getCitasUsuario);
 
 module.exports = router;

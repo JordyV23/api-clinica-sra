@@ -29,6 +29,26 @@ const getCitas = async (req = request, res = response) => {
   }
 };
 
+const getCitasUsuario = async (req = request, res = response) => {
+  try {
+    const token = req.header("user-token");
+    if(!token){
+      return error400(res,"El usuario debe de estar logueado")
+    }
+    const { payload } = jwt.decode(token, { complete: true });
+    const citas = await Citas.find({idPaciente:payload.id})
+
+    return res.status(200).json({
+      success: true,
+      citas: citas,
+    });
+
+  } catch(error) { 
+    console.log(error)
+    return error500(res)
+  }
+}
+
 /**
  * Busca citas disponibles por especialidad y fecha.
  * @function
@@ -104,4 +124,5 @@ module.exports = {
   getCitas,
   getCitasByEspecialidad,
   reservarCita,
+  getCitasUsuario
 };

@@ -41,7 +41,7 @@ const crearExamenes = async (res, consulta) => {
       const orina = new examenOrinaModel({
         idConsulta: _id,
         cedulaPaciente: cedulaPaciente,
-        tipoExamen: "Sangre",
+        tipoExamen: "Orina",
         fechaRealizado: "-",
         realizado: false,
         glucosa: "-",

@@ -4,6 +4,7 @@ const {
   getCitasByEspecialidad,
   reservarCita,
   getCitasUsuario,
+  cancelarCita,
 } = require("../controllers/citas.controller");
 
 const router = Router();
@@ -35,7 +36,8 @@ router.post("/solicitar", getCitasByEspecialidad);
  */
 router.post("/reservar", reservarCita);
 
-
 router.get("/citasUsuario", getCitasUsuario);
+
+router.post("/cancelarCita",cancelarCita)
 
 module.exports = router;

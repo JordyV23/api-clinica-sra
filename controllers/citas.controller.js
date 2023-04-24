@@ -32,22 +32,21 @@ const getCitas = async (req = request, res = response) => {
 const getCitasUsuario = async (req = request, res = response) => {
   try {
     const token = req.header("user-token");
-    if(!token){
-      return error400(res,"El usuario debe de estar logueado")
+    if (!token) {
+      return error400(res, "El usuario debe de estar logueado");
     }
     const { payload } = jwt.decode(token, { complete: true });
-    const citas = await Citas.find({idPaciente:payload.id})
+    const citas = await Citas.find({ idPaciente: payload.id });
 
     return res.status(200).json({
       success: true,
       citas: citas,
     });
-
-  } catch(error) { 
-    console.log(error)
-    return error500(res)
+  } catch (error) {
+    console.log(error);
+    return error500(res);
   }
-}
+};
 
 /**
  * Busca citas disponibles por especialidad y fecha.
@@ -95,21 +94,33 @@ const getCitasByEspecialidad = async (req = request, res = response) => {
  * @param {Object} res - El objeto de respuesta de Express.
  * @returns {Object} - Un objeto JSON que indica si la reserva fue exitosa o no.
  * @throws {Object} - Un objeto JSON que describe el error que ocurrió.
-*/
+ */
 const reservarCita = async (req = request, res = response) => {
   try {
     const token = req.header("user-token");
     if (!token) {
-      return error400(res,"El usuario debe autenticarse");
+      return error400(res, "El usuario debe autenticarse");
     }
     const { payload } = jwt.decode(token, { complete: true });
     const { idCita, nombreCompleto, telefono } = req.body;
-    const cita = await Citas.findById(idCita)
-    const citasUsuario = await Citas.find({idPaciente:payload.id, fecha: cita.fecha, hora: cita.hora })
-    if(citasUsuario.length>0){
-      return error400(res,"El usurio ya tiene una cita agendada a esta hora este dia")
+    const cita = await Citas.findById(idCita);
+    const citasUsuario = await Citas.find({
+      idPaciente: payload.id,
+      fecha: cita.fecha,
+      hora: cita.hora,
+    });
+    if (citasUsuario.length > 0) {
+      return error400(
+        res,
+        "El usurio ya tiene una cita agendada a esta hora este dia"
+      );
     }
-    await Citas.findByIdAndUpdate(idCita, { idPaciente: payload.id,nombreCompleto: nombreCompleto,telefono: telefono,disponible: false,});
+    await Citas.findByIdAndUpdate(idCita, {
+      idPaciente: payload.id,
+      nombreCompleto: nombreCompleto,
+      telefono: telefono,
+      disponible: false,
+    });
     return res.status(200).json({
       success: true,
       msg: "Su cita ha sido agendada",
@@ -120,9 +131,40 @@ const reservarCita = async (req = request, res = response) => {
   }
 };
 
+const cancelarCita = async (req = request, res = response) => {
+  try {
+    const token = req.header("user-token");
+    if (!token) {
+      return error400(res,"El usuario debe autenticarse");
+    }
+    const { idCita } = req.body;
+    const cita = Citas.findById(idCita);
+
+    if(!cita){
+      return error400(res, "Cita no existente")
+    }
+
+    await Citas.findByIdAndUpdate(idCita, {
+      idPaciente: null,
+      nombreCompleto: "*",
+      telefono: "*",
+      disponible: true,
+    });
+
+    return res.status(200).json({
+      success: true,
+      msg: "Su cita ha sido cancelada",
+    });
+  } catch (error) {
+    console.log(error);
+    return error500(res);
+  }
+};
+
 module.exports = {
   getCitas,
   getCitasByEspecialidad,
   reservarCita,
-  getCitasUsuario
+  getCitasUsuario,
+  cancelarCita
 };

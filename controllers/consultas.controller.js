@@ -94,7 +94,12 @@ const inicializarConsulta = async (req = request, res = response) => {
 
     await pacientesModel.findOneAndUpdate(
       { cedula: cedulaPaciente },
-      { $push: { peso: { fecha: fecha, peso: peso } } },
+      {
+        $push: {
+          peso: { fecha: fecha, peso: peso },
+          presionArterial: { fecha: fecha, presionArterial: presion },
+        },
+      },
       { new: true }
     );
 
@@ -131,10 +136,10 @@ const diagnostico = async (req = request, res = response) => {
           finalizada: true,
         },
       },
-      { new: true }, 
+      { new: true }
     );
 
-    await crearExamenes(res,consulta)
+    await crearExamenes(res, consulta);
 
     return res.status(200).json({
       success: true,

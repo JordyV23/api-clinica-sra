@@ -5,6 +5,7 @@ const {
   register,
   getUsuario,
   loginGoogle,
+  updateUserGoogle,
 } = require("../controllers/users.controller");
 const {
   validateEmailExistence,
@@ -61,5 +62,8 @@ router.post(
  * @throws {Object} - Objeto JSON que contiene un mensaje de error en caso de no encontrar la información del usuario o de problemas de autenticación
  */
 router.get("/user", getUsuario);
+
+
+router.post("/updateGoogle",updateUserGoogle)
 
 module.exports = router;

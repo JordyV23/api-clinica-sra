@@ -46,7 +46,7 @@ const login = async (req = request, res = response) => {
  * @param {Object} res Objeto de respuesta HTTP (por defecto: response).
  * @returns {Object} Objeto de respuesta HTTP con el resultado de la autenticación.
  * @throws {Error} Error 500 - Error interno del servidor.
-*/
+ */
 const loginGoogle = async (req = request, res = response) => {
   try {
     const { id_token } = req.body;
@@ -78,10 +78,35 @@ const loginGoogle = async (req = request, res = response) => {
       msg: "Autenticacion Exitosa",
       token: token,
       rol: usuario.rol,
+      datos: usuario.cedula,
     });
   } catch (err) {
     console.log(err);
     return error500(res);
+  }
+};
+
+const updateUserGoogle = async (req = request, res = response) => {
+  try {
+    const token = req.header("user-token");
+    if (!token) {
+      return error400(res, "El usuario debe autenticarse");
+    }
+    const { payload } = jwt.decode(token, { complete: true });
+    const { cedula, telefono, fechaNacimiento } = req.body;
+    await Usuario.findByIdAndUpdate(payload.id, {
+      cedula: cedula,
+      telefono: telefono,
+      fechaNacimiento: fechaNacimiento,
+    });
+
+    return res.status(200).json({
+      success: true,
+      msg: "Actualizacion Exitosa"
+    });
+  } catch (error) {
+    console.log(error);
+    error500(res);
   }
 };
 
@@ -160,4 +185,5 @@ module.exports = {
   loginGoogle,
   register,
   getUsuario,
+  updateUserGoogle
 };

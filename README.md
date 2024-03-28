@@ -6,21 +6,21 @@ Esta API esta compuesta de varios modulos, como los siguientes:
 
 
 ### Modulo de Login/Registro
-Un modulo que permite el registro e inicio de sesion, utilizando diferentes metodos como autenticacion con google y correo electronico
+- Un modulo que permite el registro e inicio de sesion, utilizando diferentes metodos como autenticacion con google y correo electronico
 
 ### Modulo de Citas
-Un modulo que permite reservar citas ademas de un CRUD completo de ellas, siendo estas generadas desde MONGO, cada domingo mediante una tarea programada.
+- Un modulo que permite reservar citas ademas de un CRUD completo de ellas, siendo estas generadas desde MONGO, cada domingo mediante una tarea programada.
 
 ### Modulo de Pacientes
-Modulo que permite el CRUD de los pacientes de la clinica.
+- Modulo que permite el CRUD de los pacientes de la clinica.
 
 ### Modulo de Consulta
-Modulo que permite ver las consultas y en base a ellas generar diagnosticos.
+- Modulo que permite ver las consultas y en base a ellas generar diagnosticos.
 
 ### Modulo de Examenes
-Modulo que permite crear y consultar distintos examenes pudiendo ser estos de sangre y/o orina.
+- Modulo que permite crear y consultar distintos examenes pudiendo ser estos de sangre y/o orina.
 
-Para este proyecto trabajamos en equipos de desarrollo, en mi caso me correspondia trabajar en el backend. 
+> Para este proyecto trabajamos en equipos de desarrollo, en mi caso me correspondia trabajar en el backend. 
 Haciendo uso de tecnologias como NodeJS y MongoDB.
 
 
